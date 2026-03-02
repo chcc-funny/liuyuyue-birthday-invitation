@@ -1,0 +1,245 @@
+/* 弹窗遮罩层 */
+.photo-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(10, 22, 40, 0.95);
+  backdrop-filter: blur(20px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+/* 弹窗内容容器 */
+.photo-modal-content {
+  position: relative;
+  max-width: 1200px;
+  width: 100%;
+  max-height: 90vh;
+  background: rgba(26, 42, 74, 0.9);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 107, 157, 0.2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: modalSlideUp 0.4s ease-out;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* 关闭按钮 */
+.photo-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: rgba(255, 107, 157, 0.2);
+  color: #fff;
+  font-size: 1.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo-modal-close:hover {
+  background: rgba(255, 107, 157, 0.4);
+  transform: rotate(90deg);
+}
+
+/* 照片展示区 */
+.photo-modal-image-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  min-height: 300px;
+  overflow: hidden;
+}
+
+.photo-modal-image {
+  max-width: 100%;
+  max-height: 60vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  animation: imageZoomIn 0.5s ease-out;
+}
+
+/* 照片信息区 */
+.photo-modal-info {
+  padding: 1.5rem 2rem 2rem;
+  background: rgba(10, 22, 40, 0.7);
+  border-top: 1px solid rgba(255, 107, 157, 0.15);
+}
+
+.photo-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.photo-modal-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  background: linear-gradient(90deg, #ff6b9d, #ffa06b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+
+.photo-modal-category {
+  padding: 0.3rem 0.8rem;
+  background: rgba(255, 107, 157, 0.2);
+  color: #ffa06b;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.photo-modal-description {
+  color: #d8e2f8;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0 0 1rem;
+  opacity: 0.9;
+}
+
+.photo-modal-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  font-size: 0.9rem;
+  color: #a8b8d8;
+}
+
+.photo-modal-date {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.photo-modal-id {
+  opacity: 0.6;
+  font-family: 'Monaco', 'Courier New', monospace;
+}
+
+/* 操作提示 */
+.photo-modal-hint {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.photo-modal-hint p {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
+  text-align: center;
+  margin: 0;
+  animation: hintPulse 2s ease-in-out infinite;
+}
+
+/* 动画定义 */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes imageZoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes hintPulse {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .photo-modal-overlay {
+    padding: 1rem;
+  }
+
+  .photo-modal-content {
+    max-height: 95vh;
+  }
+
+  .photo-modal-image-container {
+    padding: 1rem;
+  }
+
+  .photo-modal-image {
+    max-height: 50vh;
+  }
+
+  .photo-modal-info {
+    padding: 1rem 1.5rem 1.5rem;
+  }
+
+  .photo-modal-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .photo-modal-title {
+    font-size: 1.5rem;
+  }
+
+  .photo-modal-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .photo-modal-hint {
+    display: none;
+  }
+
+  .photo-modal-close {
+    width: 36px;
+    height: 36px;
+    font-size: 1.3rem;
+  }
+}

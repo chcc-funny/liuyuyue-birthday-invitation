@@ -2,6 +2,7 @@ import React, { Suspense, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Stars } from '@react-three/drei'
 import PhotoSphere from '../PhotoSphere/PhotoSphere'
+import PhotoDetailModal from '../PhotoDetailModal/PhotoDetailModal'
 import './Scene3D.css'
 
 /**
@@ -23,7 +24,11 @@ function Scene3D() {
   const handlePhotoClick = (photo) => {
     console.log('Selected photo:', photo)
     setSelectedPhoto(photo)
-    // TODO: 后续实现详情弹窗
+  }
+
+  // 关闭详情弹窗
+  const handleCloseModal = () => {
+    setSelectedPhoto(null)
   }
 
   return (
@@ -86,12 +91,8 @@ function Scene3D() {
         <p>✨ 滑动探索星云...</p>
       </div>
 
-      {/* 临时调试信息 */}
-      {selectedPhoto && (
-        <div className="debug-info">
-          <p>选中照片: {selectedPhoto.title}</p>
-        </div>
-      )}
+      {/* 照片详情弹窗 */}
+      <PhotoDetailModal photo={selectedPhoto} onClose={handleCloseModal} />
     </div>
   )
 }
