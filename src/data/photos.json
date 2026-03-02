@@ -1,0 +1,124 @@
+{
+  "photos": [
+    {
+      "id": "photo-001",
+      "title": "满月纪念",
+      "description": "宝贝的第一个满月",
+      "thumbnail": "/photos/thumbs/001.jpg",
+      "fullImage": "/photos/full/001.jpg",
+      "date": "2025-04-02",
+      "category": "milestone"
+    },
+    {
+      "id": "photo-002",
+      "title": "第一次微笑",
+      "description": "捕捉到的最甜美的笑容",
+      "thumbnail": "/photos/thumbs/002.jpg",
+      "fullImage": "/photos/full/002.jpg",
+      "date": "2025-05-15",
+      "category": "daily"
+    },
+    {
+      "id": "photo-003",
+      "title": "百日宴",
+      "description": "百日庆祝，亲朋欢聚",
+      "thumbnail": "/photos/thumbs/003.jpg",
+      "fullImage": "/photos/full/003.jpg",
+      "date": "2025-07-11",
+      "category": "milestone"
+    },
+    {
+      "id": "photo-004",
+      "title": "学爬行",
+      "description": "第一次自己向前爬",
+      "thumbnail": "/photos/thumbs/004.jpg",
+      "fullImage": "/photos/full/004.jpg",
+      "date": "2025-09-20",
+      "category": "daily"
+    },
+    {
+      "id": "photo-005",
+      "title": "第一颗牙",
+      "description": "长出第一颗小牙齿",
+      "thumbnail": "/photos/thumbs/005.jpg",
+      "fullImage": "/photos/full/005.jpg",
+      "date": "2025-10-08",
+      "category": "milestone"
+    },
+    {
+      "id": "photo-006",
+      "title": "中秋合影",
+      "description": "一家人的中秋团圆照",
+      "thumbnail": "/photos/thumbs/006.jpg",
+      "fullImage": "/photos/full/006.jpg",
+      "date": "2025-10-01",
+      "category": "family"
+    },
+    {
+      "id": "photo-007",
+      "title": "扶站立",
+      "description": "第一次自己扶着站起来",
+      "thumbnail": "/photos/thumbs/007.jpg",
+      "fullImage": "/photos/full/007.jpg",
+      "date": "2025-11-15",
+      "category": "milestone"
+    },
+    {
+      "id": "photo-008",
+      "title": "吃辅食",
+      "description": "第一次尝试固体食物",
+      "thumbnail": "/photos/thumbs/008.jpg",
+      "fullImage": "/photos/full/008.jpg",
+      "date": "2025-08-20",
+      "category": "daily"
+    },
+    {
+      "id": "photo-009",
+      "title": "玩玩具",
+      "description": "专注玩积木的小宝贝",
+      "thumbnail": "/photos/thumbs/009.jpg",
+      "fullImage": "/photos/full/009.jpg",
+      "date": "2025-12-01",
+      "category": "daily"
+    },
+    {
+      "id": "photo-010",
+      "title": "新年合影",
+      "description": "2026新年全家福",
+      "thumbnail": "/photos/thumbs/010.jpg",
+      "fullImage": "/photos/full/010.jpg",
+      "date": "2026-01-01",
+      "category": "family"
+    },
+    {
+      "id": "photo-011",
+      "title": "学走路",
+      "description": "蹒跚学步的可爱瞬间",
+      "thumbnail": "/photos/thumbs/011.jpg",
+      "fullImage": "/photos/full/011.jpg",
+      "date": "2026-01-20",
+      "category": "milestone"
+    },
+    {
+      "id": "photo-012",
+      "title": "春节拜年",
+      "description": "穿新衣服拜年啦",
+      "thumbnail": "/photos/thumbs/012.jpg",
+      "fullImage": "/photos/full/012.jpg",
+      "date": "2026-02-01",
+      "category": "family"
+    }
+  ],
+  "metadata": {
+    "totalPhotos": 12,
+    "dateRange": {
+      "start": "2025-04-02",
+      "end": "2026-02-01"
+    },
+    "categories": {
+      "milestone": "成长里程碑",
+      "daily": "日常生活",
+      "family": "家庭时光"
+    }
+  }
+}
