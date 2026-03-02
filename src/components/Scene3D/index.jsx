@@ -3,6 +3,8 @@ import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Stars } from '@react-three/drei'
 import PhotoSphere from '../PhotoSphere/PhotoSphere'
 import PhotoDetailModal from '../PhotoDetailModal/PhotoDetailModal'
+import InvitationCard from '../InvitationCard/InvitationCard'
+import InvitationModal from '../InvitationModal/InvitationModal'
 import './Scene3D.css'
 
 /**
@@ -19,6 +21,7 @@ import './Scene3D.css'
  */
 function Scene3D() {
   const [selectedPhoto, setSelectedPhoto] = useState(null)
+  const [selectedInvitation, setSelectedInvitation] = useState(null)
 
   // 处理照片点击事件
   const handlePhotoClick = (photo) => {
@@ -26,9 +29,20 @@ function Scene3D() {
     setSelectedPhoto(photo)
   }
 
-  // 关闭详情弹窗
-  const handleCloseModal = () => {
+  // 处理邀请函点击事件
+  const handleInvitationClick = (invitation) => {
+    console.log('Selected invitation:', invitation)
+    setSelectedInvitation(invitation)
+  }
+
+  // 关闭照片详情弹窗
+  const handleClosePhotoModal = () => {
     setSelectedPhoto(null)
+  }
+
+  // 关闭邀请函弹窗
+  const handleCloseInvitationModal = () => {
+    setSelectedInvitation(null)
   }
 
   return (
@@ -71,6 +85,12 @@ function Scene3D() {
             radius={5}
           />
 
+          {/* 邀请函卡片（放置在正前方） */}
+          <InvitationCard
+            position={{ x: 0, y: 0, z: 8 }}
+            onClick={handleInvitationClick}
+          />
+
           {/* 滑动控制器 */}
           <OrbitControls
             enableDamping={true}
@@ -92,7 +112,10 @@ function Scene3D() {
       </div>
 
       {/* 照片详情弹窗 */}
-      <PhotoDetailModal photo={selectedPhoto} onClose={handleCloseModal} />
+      <PhotoDetailModal photo={selectedPhoto} onClose={handleClosePhotoModal} />
+
+      {/* 邀请函详情弹窗 */}
+      <InvitationModal invitation={selectedInvitation} onClose={handleCloseInvitationModal} />
     </div>
   )
 }
