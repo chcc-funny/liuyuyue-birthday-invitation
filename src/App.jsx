@@ -1,10 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Scene3D from './components/Scene3D'
+import LoadingScreen from './components/LoadingScreen/LoadingScreen'
 import './App.css'
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true)
+
+  // 处理加载完成
+  const handleLoadingComplete = () => {
+    setIsLoading(false)
+  }
+
   return (
     <div className="app">
+      {/* 加载屏幕 */}
+      {isLoading && <LoadingScreen onLoadingComplete={handleLoadingComplete} />}
       {/* 顶部导航 */}
       <header className="header">
         <h1 className="title">语悦一周岁</h1>
