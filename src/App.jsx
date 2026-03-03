@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import Scene3D from './components/Scene3D'
 import LoadingScreen from './components/LoadingScreen/LoadingScreen'
+import RSVPForm from './components/RSVPForm'
 import './App.css'
 
 function App() {
   const [isLoading, setIsLoading] = useState(true)
+  const [isRSVPOpen, setIsRSVPOpen] = useState(false)
 
   // 处理加载完成
   const handleLoadingComplete = () => {
@@ -31,8 +33,20 @@ function App() {
         <div className="info-card">
           <p className="event-time">📅 2026年3月14日（星期六）晚上 18:00</p>
           <p className="event-location">📍 新粤港海鲜酒家（花都店）二楼 吉祥厅</p>
+          <button
+            className="rsvp-button"
+            onClick={() => setIsRSVPOpen(true)}
+          >
+            确认出席
+          </button>
         </div>
       </footer>
+
+      {/* 回执表单 */}
+      <RSVPForm
+        isOpen={isRSVPOpen}
+        onClose={() => setIsRSVPOpen(false)}
+      />
     </div>
   )
 }
