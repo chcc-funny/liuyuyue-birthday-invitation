@@ -1,11 +1,17 @@
-import React, { Suspense, useState } from 'react'
+import React, { Suspense, useState, lazy } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Stars } from '@react-three/drei'
 import PhotoSphere from '../PhotoSphere/PhotoSphere'
-import PhotoDetailModal from '../PhotoDetailModal/PhotoDetailModal'
 import InvitationCard from '../InvitationCard/InvitationCard'
-import InvitationModal from '../InvitationModal/InvitationModal'
+import Effects from '../Effects/Effects'
 import './Scene3D.css'
+
+// 懒加载弹窗组件以减少首屏加载时间
+const PhotoDetailModal = lazy(() => import('../PhotoDetailModal/PhotoDetailModal'))
+const InvitationModal = lazy(() => import('../InvitationModal/InvitationModal'))
+
+// 弹窗加载时的占位组件
+const ModalFallback = () => null
 
 /**
  * Scene3D - 3D星云场景容器
@@ -103,6 +109,13 @@ function Scene3D() {
             enableZoom={true}
             enablePan={false}
           />
+
+          {/* 后期效果: 景深、光晕、暗角 */}
+          <Effects
+            enableBloom={true}
+            enableDepthOfField={true}
+            enableVignette={true}
+          />
         </Suspense>
       </Canvas>
 
@@ -111,11 +124,15 @@ function Scene3D() {
         <p>✨ 滑动探索星云...</p>
       </div>
 
-      {/* 照片详情弹窗 */}
-      <PhotoDetailModal photo={selectedPhoto} onClose={handleClosePhotoModal} />
+      {/* 照片详情弹窗 - 懒加载 */}
+      <Suspense fallback={<ModalFallback />}>
+        <PhotoDetailModal photo={selectedPhoto} onClose={handleClosePhotoModal} />
+      </Suspense>
 
-      {/* 邀请函详情弹窗 */}
-      <InvitationModal invitation={selectedInvitation} onClose={handleCloseInvitationModal} />
+      {/* 邀请函详情弹窗 - 懒加载 */}
+      <Suspense fallback={<ModalFallback />}>
+        <InvitationModal invitation={selectedInvitation} onClose={handleCloseInvitationModal} />
+      </Suspense>
     </div>
   )
 }

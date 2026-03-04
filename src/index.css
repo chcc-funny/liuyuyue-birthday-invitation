@@ -1,7 +1,59 @@
+:root {
+  /* 主色调 */
+  --color-primary: #ff6b9d;
+  --color-primary-light: #ff8fb3;
+  --color-primary-dark: #e85a8a;
+  
+  /* 次要色 */
+  --color-secondary: #ffa06b;
+  --color-secondary-light: #ffb88a;
+  
+  /* 背景色 */
+  --color-bg-dark: #0a1628;
+  --color-bg-mid: #1a2a4a;
+  --color-bg-light: rgba(26, 42, 74, 0.9);
+  
+  /* 文字色 */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #d8e2f8;
+  --color-text-muted: #a8b8d8;
+  --color-text-subtle: rgba(255, 255, 255, 0.6);
+  
+  /* 边框色 */
+  --color-border: rgba(255, 107, 157, 0.2);
+  --color-border-light: rgba(255, 255, 255, 0.15);
+  --color-border-highlight: rgba(255, 107, 157, 0.3);
+  
+  /* 阴影 */
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 15px rgba(255, 107, 157, 0.3);
+  --shadow-lg: 0 6px 20px rgba(255, 107, 157, 0.4);
+  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.5);
+  
+  /* 过渡 */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* 圆角 */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 50px;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+html {
+  /* 防止 iOS Safari 弹性滚动 */
+  overscroll-behavior: none;
+  /* 平滑滚动 */
+  scroll-behavior: smooth;
 }
 
 body {
@@ -11,9 +63,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #0a1628;
-  color: white;
+  background: var(--color-bg-dark);
+  color: var(--color-text-primary);
   overflow: hidden;
+  /* 移动端优化 */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 #root {
@@ -25,4 +80,79 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* 滚动条全局样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 107, 157, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 107, 157, 0.5);
+}
+
+/* Firefox 滚动条 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 107, 157, 0.3) rgba(255, 255, 255, 0.05);
+}
+
+/* 选择文本颜色 */
+::selection {
+  background: rgba(255, 107, 157, 0.3);
+  color: var(--color-text-primary);
+}
+
+/* 焦点样式优化 */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* 按钮焦点重置 */
+button:focus {
+  outline: none;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* 输入框焦点样式 */
+input:focus,
+textarea:focus {
+  outline: none;
+}
+
+/* 超小屏幕适配 */
+@media (max-width: 320px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* 小屏手机适配 */
+@media (min-width: 321px) and (max-width: 375px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+/* 防止横屏问题 */
+@media (max-height: 500px) and (orientation: landscape) {
+  html {
+    font-size: 14px;
+  }
 }

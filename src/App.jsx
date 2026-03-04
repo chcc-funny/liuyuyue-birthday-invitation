@@ -1,8 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, lazy, Suspense } from 'react'
 import Scene3D from './components/Scene3D'
 import LoadingScreen from './components/LoadingScreen/LoadingScreen'
-import RSVPForm from './components/RSVPForm'
 import './App.css'
+
+// 懒加载 RSVPForm 以减少首屏加载时间
+const RSVPForm = lazy(() => import('./components/RSVPForm'))
+
+// RSVP 表单加载占位符
+const RSVPFormFallback = () => null
 
 function App() {
   const [isLoading, setIsLoading] = useState(true)
@@ -42,11 +47,13 @@ function App() {
         </div>
       </footer>
 
-      {/* 回执表单 */}
-      <RSVPForm
-        isOpen={isRSVPOpen}
-        onClose={() => setIsRSVPOpen(false)}
-      />
+      {/* 回执表单 - 懒加载 */}
+      <Suspense fallback={<RSVPFormFallback />}>
+        <RSVPForm
+          isOpen={isRSVPOpen}
+          onClose={() => setIsRSVPOpen(false)}
+        />
+      </Suspense>
     </div>
   )
 }

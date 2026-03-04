@@ -17,22 +17,26 @@
   padding: 1.5rem 1rem;
   background: linear-gradient(180deg, rgba(10, 22, 40, 0.9) 0%, rgba(10, 22, 40, 0) 100%);
   animation: fadeIn 1s ease-in;
+  /* 防止文字被选中 */
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .title {
   font-size: 2.5rem;
   font-weight: bold;
-  background: linear-gradient(90deg, #ff6b9d, #ffa06b);
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-bottom: 0.3rem;
   text-shadow: 0 0 20px rgba(255, 107, 157, 0.3);
+  animation: titleGlow 3s ease-in-out infinite;
 }
 
 .subtitle {
   font-size: 1rem;
-  color: #a8b8d8;
+  color: var(--color-text-muted);
   font-weight: 300;
   letter-spacing: 0.1em;
 }
@@ -53,9 +57,14 @@
   text-align: center;
   padding: 1.5rem 1rem;
   background: rgba(10, 22, 40, 0.85);
+  /* 毛玻璃效果 - 多浏览器兼容 */
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(255, 107, 157, 0.2);
+  border-top: 1px solid var(--color-border);
   animation: slideUp 1s ease-out;
+  /* 性能优化 */
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .info-card {
@@ -67,8 +76,13 @@
 .event-location {
   margin: 0.5rem 0;
   font-size: 0.95rem;
-  color: #d8e2f8;
+  color: var(--color-text-secondary);
   line-height: 1.6;
+  /* 图标对齐 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .event-time {
@@ -84,22 +98,69 @@
   padding: 0.8rem 2rem;
   font-size: 1rem;
   font-weight: 600;
-  background: linear-gradient(135deg, #ff6b9d 0%, #ffa06b 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
   color: white;
   border: none;
-  border-radius: 50px;
+  border-radius: var(--radius-full);
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-md);
+  /* 禁用双击缩放 */
+  touch-action: manipulation;
+  /* 文字不换行 */
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 按钮微光效果 */
+.rsvp-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.rsvp-button:hover::before {
+  left: 100%;
 }
 
 .rsvp-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 107, 157, 0.4);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
 }
 
 .rsvp-button:active {
-  transform: translateY(0);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* 按钮点击波纹效果 */
+.rsvp-button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.rsvp-button:active::after {
+  width: 300px;
+  height: 300px;
 }
 
 @keyframes fadeIn {
@@ -124,14 +185,23 @@
   }
 }
 
-/* 响应式设计 */
+@keyframes titleGlow {
+  0%, 100% {
+    text-shadow: 0 0 20px rgba(255, 107, 157, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 30px rgba(255, 107, 157, 0.5), 0 0 60px rgba(255, 107, 157, 0.3);
+  }
+}
+
+/* 响应式设计 - 平板 */
 @media (max-width: 768px) {
   .title {
     font-size: 2rem;
   }
 
   .subtitle {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   .placeholder p {
@@ -140,5 +210,103 @@
 
   .footer p {
     font-size: 0.9rem;
+  }
+  
+  .rsvp-button {
+    padding: 0.7rem 1.8rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* 响应式设计 - 大屏手机 */
+@media (max-width: 480px) {
+  .header {
+    padding: 1rem 0.8rem;
+  }
+  
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+  }
+  
+  .footer {
+    padding: 1.2rem 0.8rem;
+  }
+  
+  .event-time,
+  .event-location {
+    font-size: 0.85rem;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  
+  .rsvp-button {
+    padding: 0.7rem 1.5rem;
+    font-size: 0.9rem;
+    margin-top: 0.8rem;
+  }
+}
+
+/* 响应式设计 - 小屏手机 */
+@media (max-width: 375px) {
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.8rem;
+  }
+  
+  .event-time,
+  .event-location {
+    font-size: 0.8rem;
+  }
+}
+
+/* 横屏模式适配 */
+@media (max-height: 500px) and (orientation: landscape) {
+  .header {
+    padding: 0.8rem;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .footer {
+    padding: 0.8rem;
+  }
+  
+  .rsvp-button {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+  }
+}
+
+/* 减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .header,
+  .footer,
+  .title,
+  .rsvp-button::before,
+  .rsvp-button::after {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .rsvp-button {
+    border: 2px solid white;
+  }
+  
+  .footer {
+    border-top-width: 2px;
   }
 }
