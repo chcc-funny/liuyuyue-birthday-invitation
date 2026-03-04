@@ -3,7 +3,7 @@ import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Stars } from '@react-three/drei'
 import PhotoSphere from '../PhotoSphere/PhotoSphere'
 import InvitationCard from '../InvitationCard/InvitationCard'
-import Effects from '../Effects/Effects'
+// import Effects from '../Effects/Effects'  // 暂时禁用，等待 postprocessing 版本修复
 import './Scene3D.css'
 
 // 懒加载弹窗组件以减少首屏加载时间
@@ -110,12 +110,8 @@ function Scene3D() {
             enablePan={false}
           />
 
-          {/* 后期效果: 景深、光晕、暗角 */}
-          <Effects
-            enableBloom={true}
-            enableDepthOfField={true}
-            enableVignette={true}
-          />
+          {/* 后期效果暂时禁用 - postprocessing 版本兼容性问题 */}
+          {/* <Effects enableBloom={true} enableDepthOfField={true} enableVignette={true} /> */}
         </Suspense>
       </Canvas>
 

@@ -5,13 +5,15 @@
   left: 0;
   width: 100%;
   height: 100vh;
-  background: linear-gradient(135deg, #0a1628 0%, #1a2a4a 100%);
+  height: 100dvh; /* 动态视口高度，适配移动端地址栏 */
+  background: linear-gradient(135deg, var(--color-bg-dark) 0%, var(--color-bg-mid) 100%);
   z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 1;
   transition: opacity 0.5s ease-out;
+  overflow: hidden;
 }
 
 .loading-screen.fade-out {
@@ -37,37 +39,14 @@
   background: rgba(255, 255, 255, 0.8);
   border-radius: 50%;
   animation: starTwinkle 2s ease-in-out infinite;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
 }
 
-.loading-star-1 {
-  top: 20%;
-  left: 15%;
-  animation-delay: 0s;
-}
-
-.loading-star-2 {
-  top: 40%;
-  right: 20%;
-  animation-delay: 0.4s;
-}
-
-.loading-star-3 {
-  bottom: 30%;
-  left: 25%;
-  animation-delay: 0.8s;
-}
-
-.loading-star-4 {
-  top: 60%;
-  right: 30%;
-  animation-delay: 1.2s;
-}
-
-.loading-star-5 {
-  bottom: 20%;
-  left: 50%;
-  animation-delay: 1.6s;
-}
+.loading-star-1 { top: 20%; left: 15%; animation-delay: 0s; }
+.loading-star-2 { top: 40%; right: 20%; animation-delay: 0.4s; }
+.loading-star-3 { bottom: 30%; left: 25%; animation-delay: 0.8s; }
+.loading-star-4 { top: 60%; right: 30%; animation-delay: 1.2s; }
+.loading-star-5 { bottom: 20%; left: 50%; animation-delay: 1.6s; }
 
 /* 加载内容 */
 .loading-content {
@@ -77,6 +56,7 @@
   padding: 2rem;
   max-width: 500px;
   width: 100%;
+  will-change: transform;
 }
 
 /* Logo / 标识 */
@@ -89,22 +69,31 @@
   font-size: 4rem;
   margin-bottom: 1rem;
   animation: iconBounce 2s ease-in-out infinite;
+  display: inline-block;
+  transition: transform var(--transition-normal);
+  cursor: default;
+}
+
+.logo-icon:hover {
+  transform: scale(1.1);
+  animation-play-state: paused;
 }
 
 .logo-title {
   font-size: 2.5rem;
   font-weight: bold;
-  background: linear-gradient(90deg, #ff6b9d, #ffa06b);
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin: 0 0 0.5rem;
   animation: titleSlideIn 0.8s ease-out;
+  filter: drop-shadow(0 0 10px rgba(255, 107, 157, 0.3));
 }
 
 .logo-subtitle {
   font-size: 1rem;
-  color: #a8b8d8;
+  color: var(--color-text-muted);
   margin: 0;
   opacity: 0.9;
   animation: subtitleFadeIn 1s ease-out 0.3s both;
@@ -123,17 +112,19 @@
   border-radius: 10px;
   overflow: hidden;
   margin-bottom: 0.8rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .loading-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #ff6b9d, #ffa06b);
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
   border-radius: 10px;
   transition: width 0.05s linear;
   box-shadow: 0 0 10px rgba(255, 107, 157, 0.5);
   position: relative;
   overflow: hidden;
+  will-change: width;
+  transform: translateZ(0);
 }
 
 .loading-progress-fill::after {
@@ -143,27 +134,23 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
   animation: progressShine 1.5s ease-in-out infinite;
 }
 
 .loading-progress-text {
   font-size: 1rem;
   font-weight: 600;
-  color: #ffa06b;
+  color: var(--color-secondary);
   margin: 0;
   font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
 }
 
 /* 加载状态文案 */
 .loading-status {
   font-size: 1.1rem;
-  color: #d8e2f8;
+  color: var(--color-text-secondary);
   margin: 0 0 2rem;
   font-weight: 500;
   animation: statusFadeIn 0.5s ease-out;
@@ -177,113 +164,63 @@
 
 .loading-hint p {
   font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--color-text-subtle);
   margin: 0;
   animation: hintPulse 2s ease-in-out infinite;
 }
 
 /* 动画定义 */
 @keyframes starTwinkle {
-  0%, 100% {
-    opacity: 0.3;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.5);
-  }
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.5); }
 }
 
 @keyframes logoFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes iconBounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 @keyframes titleSlideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes subtitleFadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 0.9;
-  }
+  from { opacity: 0; }
+  to { opacity: 0.9; }
 }
 
 @keyframes progressFadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 @keyframes progressShine {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
 @keyframes statusFadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes hintFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes hintPulse {
-  0%, 100% {
-    opacity: 0.4;
-  }
-  50% {
-    opacity: 0.8;
-  }
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
 }
 
-/* 响应式设计 */
+/* 响应式设计 - 平板 */
 @media (max-width: 768px) {
   .loading-content {
     padding: 1.5rem;
@@ -310,7 +247,12 @@
   }
 }
 
-@media (max-height: 600px) {
+/* 响应式设计 - 大屏手机 */
+@media (max-width: 480px) {
+  .loading-content {
+    padding: 1.2rem;
+  }
+
   .loading-logo {
     margin-bottom: 2rem;
   }
@@ -320,10 +262,100 @@
   }
 
   .logo-title {
-    font-size: 1.8rem;
+    font-size: 1.75rem;
+  }
+
+  .logo-subtitle {
+    font-size: 0.85rem;
   }
 
   .loading-status {
+    font-size: 0.95rem;
     margin-bottom: 1.5rem;
+  }
+
+  .loading-progress-container {
+    margin-bottom: 1.2rem;
+  }
+
+  .loading-hint p {
+    font-size: 0.8rem;
+  }
+}
+
+/* 响应式设计 - 小屏手机 */
+@media (max-width: 375px) {
+  .logo-icon {
+    font-size: 2rem;
+  }
+
+  .logo-title {
+    font-size: 1.5rem;
+  }
+
+  .loading-progress-bar {
+    height: 5px;
+  }
+}
+
+/* 高度受限适配 */
+@media (max-height: 600px) {
+  .loading-logo {
+    margin-bottom: 1.5rem;
+  }
+
+  .logo-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .logo-title {
+    font-size: 1.5rem;
+  }
+
+  .loading-status {
+    margin-bottom: 1rem;
+  }
+
+  .loading-progress-container {
+    margin-bottom: 1rem;
+  }
+}
+
+/* 横屏模式 */
+@media (max-height: 500px) and (orientation: landscape) {
+  .loading-content {
+    padding: 1rem;
+  }
+
+  .loading-logo {
+    margin-bottom: 1rem;
+  }
+
+  .logo-icon {
+    font-size: 1.8rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .logo-title {
+    font-size: 1.3rem;
+  }
+
+  .logo-subtitle {
+    font-size: 0.75rem;
+  }
+
+  .loading-status {
+    font-size: 0.85rem;
+    margin-bottom: 0.8rem;
+  }
+}
+
+/* 减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .loading-screen * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

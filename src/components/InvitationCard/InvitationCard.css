@@ -3,21 +3,50 @@
   width: 320px;
   min-height: 400px;
   background: linear-gradient(135deg, rgba(255, 107, 157, 0.95) 0%, rgba(255, 160, 107, 0.95) 100%);
-  border-radius: 24px;
+  border-radius: var(--radius-xl);
   padding: 2rem 1.5rem;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--shadow-xl);
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all var(--transition-slow);
   position: relative;
   overflow: hidden;
   border: 2px solid rgba(255, 255, 255, 0.3);
+  /* 毛玻璃效果 */
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
+  /* 硬件加速 */
+  will-change: transform;
+  transform: translateZ(0);
+  /* 触摸优化 */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
+.invitation-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  pointer-events: none;
+}
+
+.invitation-card:hover,
 .invitation-card.hovered {
-  transform: scale(1.05);
+  transform: scale(1.05) translateY(-5px);
   box-shadow: 0 30px 80px rgba(255, 107, 157, 0.6);
   border-color: rgba(255, 255, 255, 0.5);
+}
+
+.invitation-card:active {
+  transform: scale(1.02) translateY(-2px);
 }
 
 /* 卡片头部 */
@@ -32,6 +61,13 @@
   font-size: 3rem;
   margin-bottom: 0.5rem;
   animation: iconBounce 2s ease-in-out infinite;
+  display: inline-block;
+  transition: transform var(--transition-normal);
+}
+
+.invitation-card:hover .invitation-icon {
+  animation-play-state: paused;
+  transform: scale(1.2);
 }
 
 .invitation-title {
@@ -67,6 +103,11 @@
   color: #ffffff;
   margin: 0 0 0.3rem;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: transform var(--transition-normal);
+}
+
+.invitation-card:hover .baby-name {
+  transform: scale(1.05);
 }
 
 .baby-age {
@@ -92,13 +133,25 @@
   gap: 0.8rem;
   padding: 0.8rem;
   background: rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
+  -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
+  transition: all var(--transition-normal);
+}
+
+.invitation-card:hover .detail-item {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(5px);
 }
 
 .detail-icon {
   font-size: 1.5rem;
   flex-shrink: 0;
+  transition: transform var(--transition-normal);
+}
+
+.detail-item:hover .detail-icon {
+  transform: scale(1.2);
 }
 
 .detail-text {
@@ -179,21 +232,13 @@
 
 /* 动画定义 */
 @keyframes iconBounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 @keyframes hintPulse {
-  0%, 100% {
-    opacity: 0.6;
-  }
-  50% {
-    opacity: 1;
-  }
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
 }
 
 @keyframes circleFloat {
@@ -207,7 +252,7 @@
   }
 }
 
-/* 响应式设计 */
+/* 响应式设计 - 平板 */
 @media (max-width: 768px) {
   .invitation-card {
     width: 280px;
@@ -223,11 +268,128 @@
     font-size: 1.5rem;
   }
 
+  .invitation-subtitle {
+    font-size: 0.9rem;
+  }
+
   .baby-name {
     font-size: 1.8rem;
   }
 
+  .baby-age {
+    font-size: 0.9rem;
+  }
+
   .detail-icon {
     font-size: 1.3rem;
+  }
+
+  .detail-date,
+  .detail-venue {
+    font-size: 0.95rem;
+  }
+
+  .detail-time,
+  .detail-hall {
+    font-size: 0.85rem;
+  }
+}
+
+/* 响应式设计 - 大屏手机 */
+@media (max-width: 480px) {
+  .invitation-card {
+    width: 260px;
+    min-height: 340px;
+    padding: 1.3rem 1rem;
+    border-radius: 20px;
+  }
+
+  .invitation-header {
+    margin-bottom: 1.2rem;
+  }
+
+  .invitation-icon {
+    font-size: 2.2rem;
+  }
+
+  .invitation-title {
+    font-size: 1.35rem;
+  }
+
+  .baby-name {
+    font-size: 1.6rem;
+  }
+
+  .invitation-baby {
+    padding: 0.8rem 0;
+    margin-bottom: 1.2rem;
+  }
+
+  .detail-item {
+    padding: 0.7rem;
+  }
+
+  .invitation-footer {
+    margin-top: auto;
+  }
+}
+
+/* 响应式设计 - 小屏手机 */
+@media (max-width: 375px) {
+  .invitation-card {
+    width: 240px;
+    min-height: 320px;
+    padding: 1.2rem 0.9rem;
+  }
+
+  .invitation-icon {
+    font-size: 2rem;
+  }
+
+  .invitation-title {
+    font-size: 1.25rem;
+  }
+
+  .baby-name {
+    font-size: 1.4rem;
+  }
+}
+
+/* 横屏模式 */
+@media (max-height: 500px) and (orientation: landscape) {
+  .invitation-card {
+    width: 280px;
+    min-height: auto;
+    padding: 1.2rem;
+  }
+
+  .invitation-header {
+    margin-bottom: 1rem;
+  }
+
+  .invitation-baby {
+    padding: 0.8rem 0;
+    margin-bottom: 1rem;
+  }
+
+  .invitation-details {
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .detail-item {
+    padding: 0.6rem;
+  }
+}
+
+/* 减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .invitation-card,
+  .invitation-icon,
+  .baby-name,
+  .detail-item,
+  .detail-icon {
+    transition: none;
+    animation: none;
   }
 }

@@ -6,6 +6,8 @@
   right: 0;
   bottom: 0;
   background: rgba(10, 22, 40, 0.95);
+  /* 毛玻璃效果 - 多浏览器兼容 */
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   z-index: 1000;
   display: flex;
@@ -13,6 +15,8 @@
   justify-content: center;
   padding: 2rem;
   animation: modalFadeIn 0.3s ease-out;
+  /* 防止背景滚动 */
+  overscroll-behavior: contain;
 }
 
 /* 弹窗内容容器 */
@@ -21,13 +25,36 @@
   max-width: 800px;
   width: 100%;
   max-height: 90vh;
+  max-height: 90dvh;
   background: linear-gradient(135deg, rgba(255, 107, 157, 0.15) 0%, rgba(255, 160, 107, 0.15) 100%);
-  border-radius: 24px;
-  border: 2px solid rgba(255, 107, 157, 0.3);
+  border-radius: var(--radius-xl);
+  border: 2px solid var(--color-border-highlight);
   overflow-y: auto;
   animation: modalSlideUp 0.4s ease-out;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow-xl);
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+/* 自定义滚动条 */
+.invitation-modal-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.invitation-modal-content::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.invitation-modal-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 107, 157, 0.3);
+  border-radius: 3px;
+}
+
+.invitation-modal-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 107, 157, 0.5);
 }
 
 /* 关闭按钮 */
@@ -44,15 +71,22 @@
   border-radius: 50%;
   cursor: pointer;
   z-index: 10;
-  transition: all 0.3s ease;
+  transition: all var(--transition-normal);
   display: flex;
   align-items: center;
   justify-content: center;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.invitation-modal-close:hover {
+.invitation-modal-close:hover,
+.invitation-modal-close:active {
   background: rgba(255, 107, 157, 0.4);
-  transform: rotate(90deg);
+  transform: rotate(90deg) scale(1.1);
+}
+
+.invitation-modal-close:active {
+  transform: rotate(90deg) scale(0.95);
 }
 
 /* 邀请函主体 */
@@ -78,7 +112,7 @@
 .modal-title {
   font-size: 2.5rem;
   font-weight: bold;
-  background: linear-gradient(90deg, #ff6b9d, #ffa06b);
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -87,7 +121,7 @@
 
 .modal-subtitle {
   font-size: 1.1rem;
-  color: #d8e2f8;
+  color: var(--color-text-secondary);
   margin: 0;
   opacity: 0.9;
 }
@@ -99,7 +133,7 @@
 
 .invitation-modal-greeting p {
   font-size: 1.1rem;
-  color: #d8e2f8;
+  color: var(--color-text-secondary);
   margin: 0;
   font-weight: 500;
 }
@@ -109,14 +143,20 @@
   margin-bottom: 2.5rem;
   padding: 1.5rem;
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   border-left: 4px solid rgba(255, 107, 157, 0.5);
+  transition: all var(--transition-normal);
+}
+
+.invitation-modal-message:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateX(5px);
 }
 
 .invitation-modal-message p {
   font-size: 1rem;
   line-height: 1.8;
-  color: #d8e2f8;
+  color: var(--color-text-secondary);
   margin: 0;
   text-align: justify;
 }
@@ -132,14 +172,21 @@
   flex: 1;
   padding: 1.5rem;
   background: rgba(255, 107, 157, 0.1);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   border: 1px solid rgba(255, 107, 157, 0.2);
   text-align: center;
+  transition: all var(--transition-normal);
+}
+
+.baby-info-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 107, 157, 0.15);
+  box-shadow: 0 10px 30px rgba(255, 107, 157, 0.2);
 }
 
 .baby-label {
   font-size: 0.9rem;
-  color: #a8b8d8;
+  color: var(--color-text-muted);
   margin: 0 0 0.5rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -148,8 +195,13 @@
 .baby-value {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #ffa06b;
+  color: var(--color-secondary);
   margin: 0;
+  transition: transform var(--transition-normal);
+}
+
+.baby-info-card:hover .baby-value {
+  transform: scale(1.1);
 }
 
 /* 活动详情 */
@@ -160,7 +212,7 @@
 .details-title {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #ff6b9d;
+  color: var(--color-primary);
   margin: 0 0 1.5rem;
   text-align: center;
 }
@@ -174,15 +226,27 @@
 .details-item {
   padding: 1.5rem;
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   border: 1px solid rgba(255, 107, 157, 0.15);
   display: flex;
   gap: 1rem;
+  transition: all var(--transition-normal);
+}
+
+.details-item:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 107, 157, 0.3);
 }
 
 .details-icon {
   font-size: 2rem;
   flex-shrink: 0;
+  transition: transform var(--transition-normal);
+}
+
+.details-item:hover .details-icon {
+  transform: scale(1.2);
 }
 
 .details-content {
@@ -191,7 +255,7 @@
 
 .details-label {
   font-size: 0.85rem;
-  color: #a8b8d8;
+  color: var(--color-text-muted);
   margin: 0 0 0.5rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -200,7 +264,7 @@
 .details-value {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #d8e2f8;
+  color: var(--color-text-secondary);
   margin: 0 0 0.3rem;
 }
 
@@ -208,7 +272,7 @@
 .details-hall,
 .details-address {
   font-size: 0.95rem;
-  color: #a8b8d8;
+  color: var(--color-text-muted);
   margin: 0.2rem 0 0;
 }
 
@@ -217,12 +281,12 @@
   text-align: center;
   margin-bottom: 2rem;
   padding: 2rem 0;
-  border-top: 1px solid rgba(255, 107, 157, 0.2);
+  border-top: 1px solid var(--color-border);
 }
 
 .closing-message {
   font-size: 1.1rem;
-  color: #d8e2f8;
+  color: var(--color-text-secondary);
   margin: 0 0 1rem;
   font-weight: 500;
 }
@@ -230,7 +294,7 @@
 .closing-signature {
   font-size: 1.3rem;
   font-weight: bold;
-  background: linear-gradient(90deg, #ff6b9d, #ffa06b);
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -265,72 +329,31 @@
 
 /* 动画定义 */
 @keyframes modalFadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes modalSlideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes decorationBounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
 }
 
 @keyframes decorationFloat {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
 
 @keyframes hintPulse {
-  0%, 100% {
-    opacity: 0.3;
-  }
-  50% {
-    opacity: 0.7;
-  }
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.7; }
 }
 
-/* 滚动条样式 */
-.invitation-modal-content::-webkit-scrollbar {
-  width: 8px;
-}
-
-.invitation-modal-content::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
-}
-
-.invitation-modal-content::-webkit-scrollbar-thumb {
-  background: rgba(255, 107, 157, 0.3);
-  border-radius: 4px;
-}
-
-.invitation-modal-content::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 107, 157, 0.5);
-}
-
-/* 响应式设计 */
+/* 响应式设计 - 平板 */
 @media (max-width: 768px) {
   .invitation-modal-overlay {
     padding: 1rem;
@@ -338,6 +361,7 @@
 
   .invitation-modal-content {
     max-height: 95vh;
+    max-height: 95dvh;
   }
 
   .invitation-modal-body {
@@ -361,6 +385,10 @@
     gap: 1rem;
   }
 
+  .baby-info-card {
+    padding: 1.2rem;
+  }
+
   .details-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
@@ -380,5 +408,142 @@
     font-size: 1.3rem;
     top: 1rem;
     right: 1rem;
+  }
+}
+
+/* 响应式设计 - 大屏手机 */
+@media (max-width: 480px) {
+  .invitation-modal-overlay {
+    padding: 0.5rem;
+  }
+
+  .invitation-modal-content {
+    border-radius: 20px;
+  }
+
+  .invitation-modal-body {
+    padding: 1.5rem 1.2rem;
+  }
+
+  .modal-decoration-top {
+    font-size: 1.3rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .modal-title {
+    font-size: 1.6rem;
+  }
+
+  .modal-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .invitation-modal-greeting p {
+    font-size: 1rem;
+  }
+
+  .invitation-modal-message {
+    padding: 1.2rem;
+    margin-bottom: 2rem;
+  }
+
+  .invitation-modal-message p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .baby-info-card {
+    padding: 1rem;
+  }
+
+  .baby-value {
+    font-size: 1.3rem;
+  }
+
+  .details-title {
+    font-size: 1.3rem;
+  }
+
+  .details-item {
+    padding: 1rem;
+  }
+
+  .details-value {
+    font-size: 1rem;
+  }
+
+  .invitation-modal-closing {
+    padding: 1.5rem 0;
+  }
+
+  .closing-message {
+    font-size: 1rem;
+  }
+
+  .closing-signature {
+    font-size: 1.1rem;
+  }
+
+  .modal-decoration-bottom {
+    font-size: 1.2rem;
+  }
+}
+
+/* 响应式设计 - 小屏手机 */
+@media (max-width: 375px) {
+  .invitation-modal-body {
+    padding: 1.2rem 1rem;
+  }
+
+  .modal-title {
+    font-size: 1.4rem;
+  }
+
+  .baby-value {
+    font-size: 1.2rem;
+  }
+}
+
+/* 横屏模式 */
+@media (max-height: 500px) and (orientation: landscape) {
+  .invitation-modal-body {
+    padding: 1.5rem;
+  }
+
+  .invitation-modal-baby {
+    flex-direction: row;
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* 减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .invitation-modal-overlay,
+  .invitation-modal-content,
+  .modal-decoration-top,
+  .modal-decoration-bottom,
+  .baby-info-card,
+  .details-item,
+  .invitation-modal-message {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .invitation-modal-content {
+    border-width: 2px;
+  }
+
+  .invitation-modal-close {
+    border: 2px solid white;
+  }
+
+  .invitation-modal-message {
+    border-left-width: 4px;
   }
 }

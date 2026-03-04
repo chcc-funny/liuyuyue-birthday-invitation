@@ -1,14 +1,18 @@
 /**
  * 飞书 API 工具函数
  * 处理与飞书多维表格的交互
+ * 
+ * 注意：当前实现为前端直接调用，会暴露 App Secret。
+ * 生产环境应使用后端代理（Cloudflare Worker / Vercel Function）
  */
 
 // 飞书 API 配置
+// ⚠️ 生产环境应在 Cloudflare Pages 环境变量中配置
 const FEISHU_CONFIG = {
-  appId: import.meta.env.VITE_FEISHU_APP_ID || 'cli_a90716a41df91bd7',
-  appSecret: import.meta.env.VITE_FEISHU_APP_SECRET || '0Clk4zaqwHd3K46eT3HL3elGLq3rzGgL',
-  appToken: import.meta.env.VITE_FEISHU_APP_TOKEN || 'KhV9bKFsHadmsysLgDccWs6enxh',
-  tableId: import.meta.env.VITE_FEISHU_TABLE_ID || 'tblmIWN7ZXmVymZV'
+  appId: import.meta.env.VITE_FEISHU_APP_ID || '',
+  appSecret: import.meta.env.VITE_FEISHU_APP_SECRET || '',
+  appToken: import.meta.env.VITE_FEISHU_APP_TOKEN || '',
+  tableId: import.meta.env.VITE_FEISHU_TABLE_ID || ''
 }
 
 // API 端点
@@ -53,6 +57,20 @@ async function getTenantAccessToken() {
  */
 export async function submitRSVP(formData) {
   try {
+    // 检查环境变量是否配置
+    if (!FEISHU_CONFIG.appId || !FEISHU_CONFIG.appSecret) {
+      console.warn('飞书 API 未配置，使用模拟提交')
+      // 模拟成功响应（演示模式）
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      return {
+        success: true,
+        data: {
+          record_id: 'mock-' + Date.now(),
+          message: '演示模式：表单提交成功（实际数据未保存到飞书）'
+        }
+      }
+    }
+
     // 获取 access token
     const token = await getTenantAccessToken()
 
@@ -95,7 +113,7 @@ export async function submitRSVP(formData) {
     console.error('提交回执失败:', error)
     return {
       success: false,
-      error: error.message
+      error: error.message || '提交失败，请稍后重试'
     }
   }
 }
